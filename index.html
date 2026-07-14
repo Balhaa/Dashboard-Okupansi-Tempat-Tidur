@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dashboard analisis okupansi tempat tidur rumah sakit dengan statistik lengkap dan visualisasi data interaktif." />
+  <title>Dashboard Okupansi Tempat Tidur Rumah Sakit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ===== NAVBAR (BILAH NAVIGASI) ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      </div>
+      <div class="nav-text">
+        <span class="nav-title">Rumah Sakit</span>
+        <span class="nav-subtitle">Dashboard Okupansi Tempat Tidur</span>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <div class="clock-display" id="clockDisplay"></div>
+      <button class="btn-icon" id="themeToggle" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== PEMBUNGKUS UTAMA ===== -->
+  <main class="main-wrapper">
+
+    <!-- ===== BAGIAN UNGGAH ===== -->
+    <section class="section upload-section" id="uploadSection">
+      <div class="section-header">
+        <h1 class="section-title">Dashboard Analisis Okupansi Tempat Tidur Rumah Sakit</h1>
+        <p class="section-desc">Upload data CSV rumah sakit untuk analisis okupansi tempat tidur secara lengkap dengan visualisasi interaktif</p>
+      </div>
+
+      <div class="upload-area" id="uploadArea" role="button" tabindex="0" aria-label="Upload CSV file">
+        <div class="upload-visual">
+          <div class="upload-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <h3 class="upload-title">Drag & Drop CSV di sini</h3>
+          <p class="upload-hint">atau klik untuk browse file</p>
+          <div class="upload-formats">
+            <span class="format-badge">CSV</span>
+            <span class="format-badge">UTF-8</span>
+            <span class="format-badge">Max 10MB</span>
+          </div>
+        </div>
+        <input type="file" id="csvInput" accept=".csv" hidden aria-label="CSV file input" />
+      </div>
+      <div class="upload-file-info" id="uploadFileInfo" style="display:none">
+        <span class="upload-file-name" id="uploadFileName"></span>
+        <span class="upload-file-status">Berhasil dimuat</span>
+      </div>
+
+      <div class="upload-info-box">
+        <div class="info-content">
+          <strong>Format CSV yang diperlukan:</strong>
+          <span>Kolom: <code>Tanggal</code>, <code>Pasien_Masuk</code>, <code>Pasien_Keluar</code>, <code>Total_Tempat_Tidur</code>, <code>Tempat_Tidur_Terisi</code></span>
+        </div>
+        <button class="btn-sample" id="loadSampleBtn">Load Data Sampel</button>
+      </div>
+    </section>
+
+    <!-- ===== DASBOR (disembunyikan sampai data dimuat) ===== -->
+    <div class="dashboard-container" id="dashboardContainer" style="display:none">
+
+      <!-- Kartu KPI -->
+      <section class="section kpi-section">
+        <div class="kpi-grid" id="kpiGrid">
+          <div class="kpi-card kpi-blue" id="kpiTotalDays">
+            <div class="kpi-content">
+              <span class="kpi-label">Total Hari Data</span>
+              <span class="kpi-value" id="kpiTotalDaysVal">0</span>
+            </div>
+          </div>
+          <div class="kpi-card kpi-green" id="kpiAvgOcc">
+            <div class="kpi-content">
+              <span class="kpi-label">Rata-rata Okupansi</span>
+              <span class="kpi-value" id="kpiAvgOccVal">0%</span>
+            </div>
+          </div>
+          <div class="kpi-card kpi-orange" id="kpiMaxOcc">
+            <div class="kpi-content">
+              <span class="kpi-label">Puncak Okupansi</span>
+              <span class="kpi-value" id="kpiMaxOccVal">0%</span>
+            </div>
+          </div>
+          <div class="kpi-card kpi-red" id="kpiLowDays">
+            <div class="kpi-content">
+              <span class="kpi-label">Hari Rendah (&lt;60%)</span>
+              <span class="kpi-value" id="kpiLowDaysVal">0</span>
+            </div>
+          </div>
+          <div class="kpi-card kpi-purple" id="kpiNormalDays">
+            <div class="kpi-content">
+              <span class="kpi-label">Hari Normal (60%-85%)</span>
+              <span class="kpi-value" id="kpiNormalDaysVal">0</span>
+            </div>
+          </div>
+          <div class="kpi-card kpi-teal" id="kpiHighDays">
+            <div class="kpi-content">
+              <span class="kpi-label">Hari Tinggi (&gt;85%)</span>
+              <span class="kpi-value" id="kpiHighDaysVal">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== NAVIGASI TAB ===== -->
+      <nav class="tabs-nav" id="tabsNav" aria-label="Dashboard sections">
+        <button class="tab-btn active" data-tab="charts" id="tab-charts">Visualisasi</button>
+        <button class="tab-btn" data-tab="stats" id="tab-stats">Statistik</button>
+        <button class="tab-btn" data-tab="analysis" id="tab-analysis">Analisis</button>
+        <button class="tab-btn" data-tab="table" id="tab-table">Tabel Data</button>
+        <button class="tab-btn" data-tab="insight" id="tab-insight">Insight</button>
+      </nav>
+
+      <!-- ===== TAB: GRAFIK ===== -->
+      <section class="tab-content active" id="tab-content-charts">
+        <div class="charts-grid">
+          <!-- Grafik Lingkaran -->
+          <div class="chart-card chart-wide">
+            <div class="chart-header">
+              <h3 class="chart-title">Distribusi Kategori Okupansi</h3>
+              <button class="btn-chart-action" id="exportPieChart">Export</button>
+            </div>
+            <div class="chart-body chart-body-pie">
+              <canvas id="pieChart" aria-label="Pie chart distribusi kategori"></canvas>
+              <div class="pie-legend" id="pieLegend"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TAB: STATISTIK ===== -->
+      <section class="tab-content" id="tab-content-stats">
+        <div class="stats-grid" id="statsGrid">
+          <!-- diisi oleh JS -->
+        </div>
+      </section>
+
+      <!-- ===== TAB: ANALISIS ===== -->
+      <section class="tab-content" id="tab-content-analysis">
+        <div class="analysis-grid">
+          <div class="analysis-card">
+            <div class="analysis-header analysis-low">
+              <span>Rendah (&lt;60%)</span>
+              <span class="analysis-count" id="countLow">0 hari</span>
+            </div>
+            <div class="analysis-body" id="analysisList-low"></div>
+          </div>
+          <div class="analysis-card">
+            <div class="analysis-header analysis-normal">
+              <span>Normal (60%–85%)</span>
+              <span class="analysis-count" id="countNormal">0 hari</span>
+            </div>
+            <div class="analysis-body" id="analysisList-normal"></div>
+          </div>
+          <div class="analysis-card">
+            <div class="analysis-header analysis-high">
+              <span>Tinggi (&gt;85%)</span>
+              <span class="analysis-count" id="countHigh">0 hari</span>
+            </div>
+            <div class="analysis-body" id="analysisList-high"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TAB: TABEL ===== -->
+      <section class="tab-content" id="tab-content-table">
+        <div class="table-controls">
+          <div class="search-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="tableSearch" class="search-input" placeholder="Cari tanggal atau nilai..." aria-label="Search table" />
+          </div>
+          <div class="table-actions">
+            <select id="pageSizeSelect" class="select-input" aria-label="Rows per page">
+              <option value="10">10 baris</option>
+              <option value="20">20 baris</option>
+              <option value="50">50 baris</option>
+              <option value="100">100 baris</option>
+            </select>
+            <button class="btn-primary" id="exportCsvBtn">Export CSV</button>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="dataTable" aria-label="Data table">
+            <thead id="tableHeader">
+              <!-- Diisi secara dinamis oleh JS -->
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="pagination" id="pagination" aria-label="Table pagination">
+          <button class="btn-page" id="btnPrevPage" aria-label="Previous page">‹ Sebelumnya</button>
+          <div class="page-numbers" id="pageNumbers"></div>
+          <button class="btn-page" id="btnNextPage" aria-label="Next page">Berikutnya ›</button>
+          <span class="page-info" id="pageInfo"></span>
+        </div>
+      </section>
+
+      <!-- ===== TAB: WAWASAN ===== -->
+      <section class="tab-content" id="tab-content-insight">
+        <div class="insight-container" id="insightContainer">
+          <!-- diisi oleh JS -->
+        </div>
+      </section>
+
+    </div><!-- /dashboard-container -->
+
+    <!-- Overlay Loading -->
+    <div class="loading-overlay" id="loadingOverlay" style="display:none">
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+        <span>Memproses data...</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
