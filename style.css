@@ -273,9 +273,9 @@ body {
 .upload-area {
   background: var(--glass-bg);
   border: 2px dashed var(--primary);
-  border-radius: var(--radius-lg);
-  padding: 3rem 2rem;
-  text-align: center;
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.75rem;
+  text-align: left;
   cursor: pointer;
   transition: all var(--transition-normal);
   position: relative;
@@ -286,60 +286,68 @@ body {
 .upload-area:hover, .upload-area.dragover {
   background: var(--primary-glow);
   border-color: var(--primary);
-  transform: scale(1.005);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-glow);
 }
 
 .upload-visual {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .upload-icon-wrap {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-full);
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
   background: var(--primary-glow);
   color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   transition: transform var(--transition-normal);
 }
 
 .upload-area:hover .upload-icon-wrap {
-  transform: translateY(-5px);
+  transform: scale(1.08);
 }
 
 .upload-icon-wrap svg {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
+}
+
+.upload-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
 }
 
 .upload-title {
-  font-size: 1.25rem;
+  font-size: 1.05rem;
   font-weight: 700;
 }
 
 .upload-hint {
-  font-size: 0.875rem;
+  font-size: 0.825rem;
   color: var(--text-secondary);
 }
 
 .upload-formats {
   display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 0.4rem;
+  align-items: center;
 }
 
 .format-badge {
   background: var(--bg-tertiary);
   color: var(--text-secondary);
-  font-size: 0.75rem;
+  font-size: 0.725rem;
   font-weight: 600;
-  padding: 0.25rem 0.6rem;
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-color);
 }
@@ -352,17 +360,17 @@ body {
   background: var(--success-glow);
   border: 1px solid var(--success);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1.25rem;
-  margin-top: 0.75rem;
+  padding: 0.6rem 1rem;
+  margin-top: 0.6rem;
   animation: fadeIn 0.4s ease;
 }
 
 .upload-file-icon {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
 }
 
 .upload-file-name {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--success);
   flex: 1;
@@ -370,11 +378,11 @@ body {
 }
 
 .upload-file-status {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--success);
   background: rgba(16, 185, 129, 0.1);
-  padding: 0.2rem 0.6rem;
+  padding: 0.18rem 0.55rem;
   border-radius: var(--radius-full);
   white-space: nowrap;
 }
@@ -385,9 +393,9 @@ body {
   justify-content: space-between;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1.25rem;
   border-radius: var(--radius-md);
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   gap: 1rem;
   flex-wrap: wrap;
 }
