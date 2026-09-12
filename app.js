@@ -7,7 +7,7 @@
 const state = {
   rawData: [],       // Data mentah hasil parsing
   filteredData: [],  // Data setelah pencarian
-  tableData: [],     // Data setelah pencarian + pengurutan
+  tableData: [],     // Data setelah pencarian + pengurutann
   currentPage: 1,
   pageSize: 10,
   sortBy: 'Tanggal',
