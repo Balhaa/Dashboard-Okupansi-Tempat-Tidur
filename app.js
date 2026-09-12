@@ -1449,8 +1449,11 @@ function drawPieChart(data) {
     const pct = total > 0 ? ((seg.count / total) * 100).toFixed(1) : 0;
     return `
       <div class="legend-item">
-        <span class="legend-color" style="background-color: ${seg.color}"></span>
-        <span><strong>${seg.label}</strong>: ${seg.count} titik (${pct}%)</span>
+        <div class="legend-info">
+          <span class="legend-color" style="background-color: ${seg.color}"></span>
+          <span><strong>${seg.label}</strong></span>
+        </div>
+        <span class="legend-value">${seg.count} data (${pct}%)</span>
       </div>
     `;
   }).join('');

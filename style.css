@@ -580,6 +580,7 @@ body {
 
 .charts-grid .chart-wide {
   grid-column: 1 / -1;
+  width: 100%;
 }
 
 .chart-card {
@@ -634,36 +635,82 @@ body {
 }
 
 .chart-body-pie {
-  flex-direction: column;
-  height: auto;
-  min-height: 320px;
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  height: 220px;
+  min-height: 220px;
+  gap: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
 }
 
-.chart-body canvas {
-  width: 100% !important;
-  height: 100% !important;
+.chart-body-pie canvas {
+  width: 200px !important;
+  height: 200px !important;
+  flex-shrink: 0;
 }
 
 .pie-legend {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
-  gap: 1rem;
-  font-size: 0.85rem;
-  width: 100%;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  flex: 1;
+  max-width: 450px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.legend-item:hover {
+  transform: translateX(4px);
+  border-color: var(--primary);
+}
+
+.legend-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .legend-color {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.legend-value {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .chart-body-pie {
+    flex-direction: column;
+    height: auto;
+    min-height: auto;
+    gap: 1.5rem;
+  }
+  .chart-body-pie canvas {
+    width: 180px !important;
+    height: 180px !important;
+  }
+  .pie-legend {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* ==========================================================================
