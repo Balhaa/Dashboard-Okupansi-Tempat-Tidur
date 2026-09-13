@@ -581,7 +581,7 @@ function renderKPIs() {
   document.getElementById('kpiTotalDaysVal').textContent = totalDays;
   // Display average and max occupancy with full precision
   document.getElementById('kpiAvgOccVal').textContent = `${avgOcc.toFixed(2).replace('.', ',')}%`;
-  document.getElementById('kpiMaxOccVal').textContent = `${maxOcc}%`;
+  document.getElementById('kpiMaxOccVal').textContent = `${maxOcc.toFixed(2).replace('.', ',')}%`;
   document.getElementById('kpiLowDaysVal').textContent = lowDays;
   document.getElementById('kpiNormalDaysVal').textContent = normalDays;
   document.getElementById('kpiHighDaysVal').textContent = highDays;
