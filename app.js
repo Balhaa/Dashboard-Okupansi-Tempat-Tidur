@@ -578,8 +578,8 @@ function renderKPIs() {
   const highDays = state.rawData.filter(d => d.Kategori === 'Tinggi').length;
 
   document.getElementById('kpiTotalDaysVal').textContent = totalDays;
-  document.getElementById('kpiAvgOccVal').textContent = `${avgOcc.toFixed(1)}%`;
-  document.getElementById('kpiMaxOccVal').textContent = `${maxOcc.toFixed(1)}%`;
+  document.getElementById('kpiAvgOccVal').textContent = `${avgOcc.toFixed(2)}%`;
+  document.getElementById('kpiMaxOccVal').textContent = `${maxOcc.toFixed(2)}%`;
   document.getElementById('kpiLowDaysVal').textContent = lowDays;
   document.getElementById('kpiNormalDaysVal').textContent = normalDays;
   document.getElementById('kpiHighDaysVal').textContent = highDays;
@@ -1432,7 +1432,7 @@ function drawPieChart(data) {
       ctx.font = 'bold 10px Inter';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(`${(share * 100).toFixed(0)}%`, tx, ty);
+      ctx.fillText(`${(share * 100).toFixed(2)}%`, tx, ty);
     }
 
     startAngle += sliceAngle;
@@ -1446,7 +1446,7 @@ function drawPieChart(data) {
 
   // Legenda
   legendContainer.innerHTML = segments.map(seg => {
-    const pct = total > 0 ? ((seg.count / total) * 100).toFixed(1) : 0;
+    const pct = total > 0 ? ((seg.count / total) * 100).toFixed(2) : 0;
     return `
       <div class="legend-item">
         <div class="legend-info">
