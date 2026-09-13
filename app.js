@@ -298,7 +298,8 @@ function parseCSV(text, fileName = 'Data CSV') {
       } else if (totalTT > 0) {
         okupansi = (ttTerisi / totalTT) * 100;
       }
-      row.Okupansi = parseFloat(okupansi.toFixed(2));
+      // Preserve original occupancy value without rounding
+      row.Okupansi = typeof okupansi === 'number' ? okupansi : parseFloat(okupansi);
 
       // Tentukan Kategori
       let kategori = 'Normal';
@@ -578,8 +579,9 @@ function renderKPIs() {
   const highDays = state.rawData.filter(d => d.Kategori === 'Tinggi').length;
 
   document.getElementById('kpiTotalDaysVal').textContent = totalDays;
-  document.getElementById('kpiAvgOccVal').textContent = `${avgOcc.toFixed(2)}%`;
-  document.getElementById('kpiMaxOccVal').textContent = `${maxOcc.toFixed(2)}%`;
+  // Display average and max occupancy with full precision
+  document.getElementById('kpiAvgOccVal').textContent = `${avgOcc}%`;
+  document.getElementById('kpiMaxOccVal').textContent = `${maxOcc}%`;
   document.getElementById('kpiLowDaysVal').textContent = lowDays;
   document.getElementById('kpiNormalDaysVal').textContent = normalDays;
   document.getElementById('kpiHighDaysVal').textContent = highDays;
@@ -732,7 +734,7 @@ function renderOccupancyAnalysisTab() {
       return `
         <div class="analysis-item">
           <span class="analysis-item-date">${item.Tanggal}</span>
-          <span class="analysis-item-val">${item.Okupansi.toFixed(1)}%${bedDetail}</span>
+          <span class="analysis-item-val">${item.Okupansi}%${bedDetail}</span>
         </div>
       `;
     }).join('');
