@@ -578,8 +578,8 @@ function renderKPIs() {
   const highDays = state.rawData.filter(d => d.Kategori === 'Tinggi').length;
 
   document.getElementById('kpiTotalDaysVal').textContent = totalDays;
-      document.getElementById('kpiAvgOccVal').textContent = `${avgOcc}%`;
-      document.getElementById('kpiMaxOccVal').textContent = `${maxOcc}%`;
+  document.getElementById('kpiAvgOccVal').textContent = `${avgOcc.toFixed(1)}%`;
+  document.getElementById('kpiMaxOccVal').textContent = `${maxOcc.toFixed(1)}%`;
   document.getElementById('kpiLowDaysVal').textContent = lowDays;
   document.getElementById('kpiNormalDaysVal').textContent = normalDays;
   document.getElementById('kpiHighDaysVal').textContent = highDays;
