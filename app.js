@@ -626,7 +626,7 @@ function renderStatisticsTab() {
           <div class="stat-row"><span class="stat-name">Modus</span><span class="stat-value">${formatIndo(mode, 2)}${unit}</span></div>
           <div class="stat-row"><span class="stat-name">Nilai Minimum (Min)</span><span class="stat-value">${formatIndo(minVal, 2)}${unit}</span></div>
           <div class="stat-row"><span class="stat-name">Nilai Maksimum (Max)</span><span class="stat-value">${formatIndo(maxVal, 2)}${unit}</span></div>
-          <div class="stat-row"><span class="stat-name">Varians (Sample)</span><span class="stat-value">${formatIndo(variance, 2)}</span></div>
+
           <div class="stat-row"><span class="stat-name">Standar Deviasi</span><span class="stat-value">${formatIndo(stdDev, 2)}${unit}</span></div>
         </div>
       </div>
